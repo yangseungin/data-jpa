@@ -50,8 +50,21 @@ public class MemberJpaRepository {
     }
 
     public List<Member> findByUserName(String userName){
-        return em.createNamedQuery("Member.findByUsername",Member.class)
+        return em.createNamedQuery("Member.findByUserName",Member.class)
                 .setParameter("userName","회원1")
                 .getResultList();
+    }
+
+    public List<Member> findByPage(int age, int offset, int limit){
+        return em.createQuery("select m from Member m where m.age = :age order By m.userName desc")
+                .setParameter("age",age)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+    public long totalCount(int age){
+        return em.createQuery(" select count(m) from Member m where m.age = :age",Long.class)
+                .setParameter("age",age)
+                .getSingleResult();
     }
 }
