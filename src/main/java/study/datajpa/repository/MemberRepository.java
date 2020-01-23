@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
     List<Member> findByUserNameAndAgeGreaterThan(String username, int age);
 
@@ -38,7 +38,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     List<Member> findByNames(@Param("names") Collection<String> names);
 
     List<Member> findListByUserName(String userName); // collection
+
     Member findMemberByUserName(String userName);   // 단건
+
     Optional<Member> findOptionalByUserName(String userName); //단건 optional
 
     @Query(value = "select m from Member m left join m.team t",
@@ -68,6 +70,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUserName(String userName);
-
+    
 
 }
